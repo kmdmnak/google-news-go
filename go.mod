@@ -1,4 +1,4 @@
-module github/kmdmnak/google-news-go
+module github.com/kmdmnak/google-news-go
 
 go 1.19
 
