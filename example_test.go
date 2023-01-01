@@ -3,9 +3,10 @@ package googlenews_test
 import (
 	"context"
 	"fmt"
-	googlenews "github/kmdmnak/google-news-go"
 	"log"
 	"time"
+
+	googlenews "github.com/kmdmnak/google-news-go"
 )
 
 func ExampleSearchByGeometry() {
