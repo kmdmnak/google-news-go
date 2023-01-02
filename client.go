@@ -16,13 +16,13 @@ func addLanguageParams(val url.Values, lang *langProperty) {
 	val.Set("hl", lang.Hl)
 }
 
-type client struct {
+type Client struct {
 	base    string
 	lang    Language
 	hclient *http.Client
 }
 
-func (c *client) newRequest(ctx context.Context, url string) (*http.Request, error) {
+func (c *Client) newRequest(ctx context.Context, url string) (*http.Request, error) {
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (c *client) newRequest(ctx context.Context, url string) (*http.Request, err
 	return req, nil
 }
 
-func (c *client) do(req *http.Request) (*rss.Feed, *http.Response, error) {
+func (c *Client) do(req *http.Request) (*rss.Feed, *http.Response, error) {
 	resp, err := c.hclient.Do(req)
 	if err != nil {
 		return nil, resp, err
@@ -46,7 +46,7 @@ func (c *client) do(req *http.Request) (*rss.Feed, *http.Response, error) {
 }
 
 // SearchByTopic get headlines of specific topic
-func (c *client) SearchByTopic(ctx context.Context, topic NewsTopic) (*rss.Feed, *http.Response, error) {
+func (c *Client) SearchByTopic(ctx context.Context, topic NewsTopic) (*rss.Feed, *http.Response, error) {
 	url := fmt.Sprintf("%s/headlines/section/topic/%s", c.base, url.QueryEscape(topic.string()))
 	req, err := c.newRequest(ctx, url)
 	if err != nil {
@@ -56,7 +56,7 @@ func (c *client) SearchByTopic(ctx context.Context, topic NewsTopic) (*rss.Feed,
 }
 
 // SearchByQuery get headlines using query
-func (c *client) SearchByQuery(ctx context.Context, params *QueryParameter) (*rss.Feed, *http.Response, error) {
+func (c *Client) SearchByQuery(ctx context.Context, params *QueryParameter) (*rss.Feed, *http.Response, error) {
 	url := fmt.Sprintf("%s/search", c.base)
 	req, err := c.newRequest(ctx, url)
 	if err != nil {
@@ -69,7 +69,7 @@ func (c *client) SearchByQuery(ctx context.Context, params *QueryParameter) (*rs
 }
 
 // SearchByGeometry get headlines using place name, country name etc.
-func (c *client) SearchByGeometry(ctx context.Context, word string) (*rss.Feed, *http.Response, error) {
+func (c *Client) SearchByGeometry(ctx context.Context, word string) (*rss.Feed, *http.Response, error) {
 	url := fmt.Sprintf("%s/headlines/section/geo/%s", c.base, url.QueryEscape(word))
 	req, err := c.newRequest(ctx, url)
 	if err != nil {
@@ -78,8 +78,8 @@ func (c *client) SearchByGeometry(ctx context.Context, word string) (*rss.Feed, 
 	return c.do(req)
 }
 
-func NewClient(lang Language) *client {
-	c := client{
+func NewClient(lang Language) *Client {
+	c := Client{
 		base:    "https://news.google.com/news/rss",
 		lang:    lang,
 		hclient: &http.Client{},

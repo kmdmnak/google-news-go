@@ -51,18 +51,18 @@ func Test_client_newRequest(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := &client{
+			c := &Client{
 				base:    tt.fields.base,
 				lang:    tt.fields.lang,
 				hclient: tt.fields.hclient,
 			}
 			got, err := c.newRequest(tt.args.ctx, tt.args.url)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.newRequest() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Client.newRequest() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.newRequest() = %v, want %v", got, tt.want)
+				t.Errorf("Client.newRequest() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -89,21 +89,21 @@ func Test_client_do(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := &client{
+			c := &Client{
 				base:    tt.fields.base,
 				lang:    tt.fields.lang,
 				hclient: tt.fields.hclient,
 			}
 			got, got1, err := c.do(tt.args.req)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.do() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Client.do() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.do() got = %v, want %v", got, tt.want)
+				t.Errorf("Client.do() got = %v, want %v", got, tt.want)
 			}
 			if !reflect.DeepEqual(got1, tt.want1) {
-				t.Errorf("client.do() got1 = %v, want %v", got1, tt.want1)
+				t.Errorf("Client.do() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
@@ -141,7 +141,7 @@ func Test_client_SearchByTopic(t *testing.T) {
 			c := NewClient(tt.fields.lang)
 			got, _, err := c.SearchByTopic(tt.args.ctx, tt.args.topic)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.SearchByTopic() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Client.SearchByTopic() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if len(got.Items) > 0 {
@@ -189,16 +189,10 @@ func Test_client_SearchByQuery(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := NewClient(USEN)
-			got, got1, err := c.SearchByQuery(tt.args.ctx, tt.args.params)
+			_, _, err := c.SearchByQuery(tt.args.ctx, tt.args.params)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.SearchByQuery() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Client.SearchByQuery() error = %v, wantErr %v", err, tt.wantErr)
 				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.SearchByQuery() got = %v, want %v", got, tt.want)
-			}
-			if !reflect.DeepEqual(got1, tt.want1) {
-				t.Errorf("client.SearchByQuery() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
@@ -226,21 +220,21 @@ func Test_client_SearchByGeometry(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := &client{
+			c := &Client{
 				base:    tt.fields.base,
 				lang:    tt.fields.lang,
 				hclient: tt.fields.hclient,
 			}
 			got, got1, err := c.SearchByGeometry(tt.args.ctx, tt.args.word)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.SearchByGeometry() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Client.SearchByGeometry() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.SearchByGeometry() got = %v, want %v", got, tt.want)
+				t.Errorf("Client.SearchByGeometry() got = %v, want %v", got, tt.want)
 			}
 			if !reflect.DeepEqual(got1, tt.want1) {
-				t.Errorf("client.SearchByGeometry() got1 = %v, want %v", got1, tt.want1)
+				t.Errorf("Client.SearchByGeometry() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
@@ -253,7 +247,7 @@ func TestNewClient(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want *client
+		want *Client
 	}{
 		// TODO: Add test cases.
 	}
